@@ -12,23 +12,23 @@
 
 char *_fmt = "find ./* -name %s", *_fmt2 = "rm -rf %s";
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("argv[1]='%s'\n", argv[1]);
+int main(int argc, const char * argv[]) 
+{
+    printf("file='%s'\n", argv[1]);
     
     if (argc <= 1)
         return -1;
     
     int size = strlen(argv[1])+strlen(_fmt)+1;
-    char *cmd = (char *)malloc(size), *cmd2=NULL;
+    char *cmd_find = (char *)malloc(size), *cmd_rm=NULL;
     
-    memset(cmd, 0, size);
+    memset(cmd_find, 0, size);
     
-    sprintf(cmd, _fmt, argv[1]);
+    sprintf(cmd_find, _fmt, argv[1]);
     
     FILE *fp;
     
-    if (fp = popen(cmd, "r"))
+    if (fp = popen(cmd_find, "r"))
     {
         char buf[128];
         
@@ -37,17 +37,17 @@ int main(int argc, const char * argv[]) {
             buf[strlen(buf)-1]='\0';
             //printf("'%s'\n", buf);
             
-            cmd2 = malloc(strlen(buf)+strlen(_fmt2));
-            memset(cmd2, 0, (strlen(buf)+strlen(_fmt2)));
-            sprintf(cmd2, _fmt2, buf);
-            printf("'%s'\n", cmd2);
-            system(cmd2);
-            free(cmd2);
+            cmd_rm = malloc(strlen(buf)+strlen(_fmt2));
+            memset(cmd_rm, 0, (strlen(buf)+strlen(_fmt2)));
+            sprintf(cmd_rm, _fmt2, buf);
+            //printf("'%s'\n", cmd_rm);
+            system(cmd_rm);
+            free(cmd_rm);
         }
         pclose(fp);
     }
     
-    free(cmd);
+    free(cmd_find);
     
     return 0;
 }
